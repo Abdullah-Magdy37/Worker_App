@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClientAuthController;
+use App\Http\Controllers\PostsController;
 use App\Http\Controllers\WorkerAuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +25,10 @@ Route::middleware('DbBackup')->prefix('auth')->group(function () {
         Route::get('/verify/{token}', 'verify');
     });
 
+    Route::controller(PostsController::class)->prefix('worker')->group(function () {
+        Route::post('addPost', 'addPost');
+    });
+
     Route::controller(ClientAuthController::class)->prefix('client')->group(function () {
         Route::post('/login', 'login');
         Route::post('/register', 'register');
@@ -33,8 +38,8 @@ Route::middleware('DbBackup')->prefix('auth')->group(function () {
     });
 });
 
-Route::get('Unauthorized' , function(){
-    return response()->json([
-        'message' => 'Unauthorized'
-    ] , 401);
-})->name('login');
+    Route::get('Unauthorized', function () {
+        return response()->json([
+            'message' => 'Unauthorized',
+        ], 401);
+    })->name('login');
